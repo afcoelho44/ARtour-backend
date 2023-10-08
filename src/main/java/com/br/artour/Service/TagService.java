@@ -16,11 +16,26 @@ import java.util.List;
 public class TagService {
     private TagRepository repository;
 
-    public List<Tag> getAllTag() {return repository.findAll();}
+    public ResponseEntity<List<Tag>> getAllTag() {
+        return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+    }
 
     public ResponseEntity<Long> createTag(TagRequest request){
         var entity = new TagRequestToEntity().map(request);
         var id = repository.save(entity).getId();
         return new ResponseEntity<>(id, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<Tag> updateTag(Long id, TagRequest request){
+        var record = repository.findById(id).orElseThrow(RuntimeException::new);
+        record = new TagRequestToEntity().mapUpdate(request, record);
+
+        repository.save(record);
+        return new ResponseEntity<>(record, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> deleteTag(Long id){
+        repository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

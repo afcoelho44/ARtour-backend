@@ -17,10 +17,20 @@ public class TagController {
     private TagService service;
 
     @GetMapping("/all")
-    public List<Tag> getAllTag(){ return service.getAllTag();}
+    public ResponseEntity<List<Tag>> getAllTag(){ return service.getAllTag();}
 
     @PostMapping("/create")
     public ResponseEntity<Long> createTag(@RequestBody TagRequest tag){
         return service.createTag(tag);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Tag> updateTag(@PathVariable Long id, @RequestBody TagRequest request){
+        return service.updateTag(id, request);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteTag(@PathVariable Long id){
+        return service.deleteTag(id);
     }
 }

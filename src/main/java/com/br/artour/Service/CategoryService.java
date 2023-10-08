@@ -23,6 +23,11 @@ public class CategoryService {
 
     public ResponseEntity<List<Category>> getAllCategory(){ return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);}
 
+    public ResponseEntity<Category> getCategoryById(Long id){
+        var response = repository.findById(id).orElseThrow(RuntimeException::new);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     public ResponseEntity<Long> createCategory(CategoryRequest request){
         var entity = new CategoryRequestToEntity().map(request);
         var id = repository.save(entity).getId();
@@ -31,9 +36,10 @@ public class CategoryService {
 
     public ResponseEntity<Category> updateCategory(Long id, CategoryRequest request){
         var record = repository.findById(id).orElseThrow(RuntimeException::new);
-        var response = new CategoryRequestToEntity().mapUpdate(request, record);
+        record = new CategoryRequestToEntity().mapUpdate(request, record);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        repository.save(record);
+        return new ResponseEntity<>(record, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> DeleteCategory(Long id){
