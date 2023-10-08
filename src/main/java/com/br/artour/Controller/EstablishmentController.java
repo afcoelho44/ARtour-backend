@@ -2,6 +2,7 @@ package com.br.artour.Controller;
 
 
 import com.br.artour.Entity.Establishment;
+import com.br.artour.Model.EstablishmentRequest;
 import com.br.artour.Service.EstablishmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class EstablishmentController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<Long> createEstablishment(@RequestBody Establishment establishment){
-        return service.createEstablishment(establishment);
+    public ResponseEntity<Long> createEstablishment(@RequestBody EstablishmentRequest establishmentRequest){
+        return service.createEstablishment(establishmentRequest);
     }
 }

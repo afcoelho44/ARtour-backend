@@ -1,6 +1,7 @@
 package com.br.artour.Controller;
 
 import com.br.artour.Entity.User;
+import com.br.artour.Model.UserRequest;
 import com.br.artour.Repository.UserRepository;
 import com.br.artour.Service.UserService;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,7 @@ public class UserController {
         }
 
         @PostMapping("/create")
-        public ResponseEntity<Long> createUser(@RequestBody User user){
+        public ResponseEntity<Long> createUser(@RequestBody UserRequest user){
             return service.createUser(user);
         }
 }

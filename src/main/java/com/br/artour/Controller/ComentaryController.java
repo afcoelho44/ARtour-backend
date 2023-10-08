@@ -2,6 +2,7 @@ package com.br.artour.Controller;
 
 
 import com.br.artour.Entity.Comentary;
+import com.br.artour.Model.ComentaryRequest;
 import com.br.artour.Service.ComentaryService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ComentaryController {
     public List<Comentary> getAllComentary(){return service.getAllComentary();}
 
     @PostMapping("/create")
-    public ResponseEntity<Long> createComentary(@RequestBody Comentary comentary){
-        return service.createComentery(comentary);
+    public ResponseEntity<Long> createComentary(@RequestBody ComentaryRequest comentaryRequest){
+        return service.createComentery(comentaryRequest);
     }
 }

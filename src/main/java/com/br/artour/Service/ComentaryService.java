@@ -1,7 +1,12 @@
 package com.br.artour.Service;
 
 import com.br.artour.Entity.Comentary;
+import com.br.artour.Entity.User;
+import com.br.artour.Mapper.ComentaryRequestToEntity;
+import com.br.artour.Model.ComentaryRequest;
 import com.br.artour.Repository.ComentaryRepository;
+import com.br.artour.Repository.EstablishmentRepository;
+import com.br.artour.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +18,22 @@ import java.util.List;
 @AllArgsConstructor
 public class ComentaryService {
 
-    private ComentaryRepository repository;
+    private ComentaryRepository comentaryRepository;
 
-    public List<Comentary> getAllComentary(){return repository.findAll();}
+    private UserRepository userRepository;
 
-    public ResponseEntity<Long> createComentery(Comentary com){
-        var id = repository.save(com).getId();
+    private EstablishmentRepository establishmentRepository;
+
+    public List<Comentary> getAllComentary(){return comentaryRepository.findAll();}
+
+    public ResponseEntity<Long> createComentery(ComentaryRequest request){
+        var user= userRepository.findById(request.getUser_id()).orElseThrow(RuntimeException::new);
+        var establishment= establishmentRepository.findById(request.getEstablishment_id()).orElseThrow(RuntimeException::new);
+        var entity= new ComentaryRequestToEntity().map(request);
+        entity.setUser(user);
+        entity.setEstablishment(establishment);
+
+        var id = comentaryRepository.save(entity).getId();
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 }

@@ -1,6 +1,8 @@
 package com.br.artour.Service;
 
 import com.br.artour.Entity.User;
+import com.br.artour.Mapper.UserRequestToEntity;
+import com.br.artour.Model.UserRequest;
 import com.br.artour.Repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -18,14 +20,16 @@ import java.util.List;
 
 public class UserService {
 
-    private UserRepository repository;
+    private UserRepository userRepository;
+
 
     public List<User> getAllUsers(){
-        return repository.findAll();
+        return userRepository.findAll();
     }
 
-    public ResponseEntity<Long> createUser(User user){
-        Long id = repository.save(user).getId();
+    public ResponseEntity<Long> createUser(UserRequest request){
+        var entity= new UserRequestToEntity().map(request);
+        var id = userRepository.save(entity).getId();
         return new ResponseEntity<>(id,HttpStatus.CREATED);
     }
 }
