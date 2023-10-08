@@ -14,4 +14,11 @@ public class TagRequestToEntity implements InternMapper<Tag, TagRequest> {
 
         return record;
     }
+
+    @Override
+    public Tag mapUpdate(TagRequest request, Tag record) {
+        record.setTitle(request.getTitle());
+
+        return record;
+    }
 }

@@ -13,4 +13,11 @@ public class CategoryRequestToEntity implements InternMapper<Category, CategoryR
         return record;
     }
 
+    @Override
+    public Category mapUpdate(CategoryRequest request, Category record) {
+        record.setName(request.getName());
+
+        return record;
+    }
+
 }
