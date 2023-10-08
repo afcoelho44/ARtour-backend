@@ -23,7 +23,6 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @JsonIgnore
+    @JsonManagedReference(value = "categoryRef")
     private List<Establishment> establishment;
 }

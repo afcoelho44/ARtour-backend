@@ -25,12 +25,12 @@ public class Comentary {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "userRef")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "establishment_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "establishmentRef")
     private Establishment establishment;
 
 

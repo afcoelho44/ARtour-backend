@@ -28,8 +28,7 @@ public class User {
 
     private boolean isAdmin;
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    @JsonIgnore
-    @JsonManagedReference
+    @JsonManagedReference(value = "userRef")
     private List<Comentary> comments;
 
 

@@ -21,6 +21,5 @@ public class Tag {
     private String title;
 
     @ManyToMany(mappedBy = "tags")
-    @JsonBackReference
     private List<Establishment> establishments;
 }
