@@ -1,5 +1,6 @@
 package com.br.artour.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class User {
 
     private boolean isAdmin;
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+    @JsonIgnore
     @JsonManagedReference
     private List<Comentary> comments;
 

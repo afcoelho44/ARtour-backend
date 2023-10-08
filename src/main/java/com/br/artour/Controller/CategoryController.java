@@ -18,7 +18,6 @@ public class CategoryController {
 
     private CategoryService service;
 
-    private CategoryRepository r;
 
     @GetMapping("/all")
     public List<Category> getAllCategory(){return service.getAllCategory();}
@@ -26,7 +25,6 @@ public class CategoryController {
 
     @PostMapping("/create")
     public ResponseEntity<Long> create(@RequestBody Category cat){
-        Long id= r.save(cat).getId();
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        return service.createCategory(cat);
     }
 }

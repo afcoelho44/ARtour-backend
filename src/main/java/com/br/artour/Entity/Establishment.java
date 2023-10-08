@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -35,17 +36,17 @@ public class Establishment {
 
     private String fees_costs;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="establishment")
-    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "establishment")
+    @JsonIgnore
     private List<Comentary> comments;
 
-    /* @OneToMany(cascade = CascadeType.ALL, mappedBy="establishment")
+    @ManyToMany
+    @JoinTable(name="establishments_tags", joinColumns = {@JoinColumn(name="establishment_id")}, inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     @JsonManagedReference
     private List<Tag> tags;
-    */
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = true)
+    @JoinColumn(name = "category_id", nullable = false)
     @JsonBackReference
     private Category category;
 

@@ -20,8 +20,7 @@ public class Tag {
     private Long id;
     private String title;
 
-    /*@ManyToMany
-    @JoinColumn(name = "establishment_id", nullable = true)
+    @ManyToMany(mappedBy = "tags")
     @JsonBackReference
-    private List<Establishment> establishments;*/
+    private List<Establishment> establishments;
 }

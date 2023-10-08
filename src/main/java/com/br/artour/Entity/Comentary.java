@@ -24,12 +24,14 @@ public class Comentary {
     private String media;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "establishment_id", nullable = true)
+    @JoinColumn(name = "establishment_id", nullable = false)
     @JsonBackReference
     private Establishment establishment;
+
+
 }

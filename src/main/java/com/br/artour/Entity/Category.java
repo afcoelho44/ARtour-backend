@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="category")
 public class Category {
 
     @Id
@@ -21,7 +22,8 @@ public class Category {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="category")
+    @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @JsonIgnore
     private List<Establishment> establishment;
 }
