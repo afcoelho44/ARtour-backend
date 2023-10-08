@@ -1,8 +1,11 @@
 package com.br.artour.Service;
 
 import com.br.artour.Entity.Establishment;
+import com.br.artour.Entity.User;
 import com.br.artour.Mapper.EstablishmentRequestToEntity;
+import com.br.artour.Mapper.UserRequestToEntity;
 import com.br.artour.Model.EstablishmentRequest;
+import com.br.artour.Model.UserRequest;
 import com.br.artour.Repository.CategoryRepository;
 import com.br.artour.Repository.EstablishmentRepository;
 import lombok.AllArgsConstructor;
@@ -29,5 +32,16 @@ public class EstablishmentService {
 
         var id = repositoryEstablishment.save(entity).getId();
         return new ResponseEntity<>(id, HttpStatus.CREATED);
+    }
+    public ResponseEntity<Establishment> updateEstablishment(Long id, EstablishmentRequest request){
+        var record= repositoryEstablishment.findById(id).orElseThrow(RuntimeException::new);
+        record= new EstablishmentRequestToEntity().mapUpdate(request,record);
+        repositoryEstablishment.save(record);
+        return new ResponseEntity<>(record, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> deleteEstablishment(Long id){
+        repositoryEstablishment.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

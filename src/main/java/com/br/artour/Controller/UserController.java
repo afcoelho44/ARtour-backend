@@ -28,4 +28,14 @@ public class UserController {
         public ResponseEntity<Long> createUser(@RequestBody UserRequest user){
             return service.createUser(user);
         }
+
+        @PutMapping("/update/{id}")
+        public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserRequest request){
+            return service.updateUser(id, request);
+        }
+
+        @DeleteMapping("/delete/{id}")
+        public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+            return service.deleteUser(id);
+        }
 }

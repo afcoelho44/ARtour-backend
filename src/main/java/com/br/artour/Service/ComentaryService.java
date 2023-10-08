@@ -3,7 +3,9 @@ package com.br.artour.Service;
 import com.br.artour.Entity.Comentary;
 import com.br.artour.Entity.User;
 import com.br.artour.Mapper.ComentaryRequestToEntity;
+import com.br.artour.Mapper.UserRequestToEntity;
 import com.br.artour.Model.ComentaryRequest;
+import com.br.artour.Model.UserRequest;
 import com.br.artour.Repository.ComentaryRepository;
 import com.br.artour.Repository.EstablishmentRepository;
 import com.br.artour.Repository.UserRepository;
@@ -35,5 +37,16 @@ public class ComentaryService {
 
         var id = comentaryRepository.save(entity).getId();
         return new ResponseEntity<>(id, HttpStatus.CREATED);
+    }
+    public ResponseEntity<Comentary> updateComentary(Long id, ComentaryRequest request){
+        var record= comentaryRepository.findById(id).orElseThrow(RuntimeException::new);
+        record= new ComentaryRequestToEntity().mapUpdate(request,record);
+        comentaryRepository.save(record);
+        return new ResponseEntity<>(record, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> deleteComentary(Long id){
+        comentaryRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

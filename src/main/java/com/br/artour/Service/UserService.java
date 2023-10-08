@@ -32,4 +32,15 @@ public class UserService {
         var id = userRepository.save(entity).getId();
         return new ResponseEntity<>(id,HttpStatus.CREATED);
     }
+    public ResponseEntity<User> updateUser(Long id, UserRequest request){
+        var record= userRepository.findById(id).orElseThrow(RuntimeException::new);
+        record= new UserRequestToEntity().mapUpdate(request,record);
+        userRepository.save(record);
+        return new ResponseEntity<>(record, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> deleteUser(Long id){
+        userRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

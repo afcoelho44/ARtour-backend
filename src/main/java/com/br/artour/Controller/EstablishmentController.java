@@ -2,7 +2,9 @@ package com.br.artour.Controller;
 
 
 import com.br.artour.Entity.Establishment;
+import com.br.artour.Entity.User;
 import com.br.artour.Model.EstablishmentRequest;
+import com.br.artour.Model.UserRequest;
 import com.br.artour.Service.EstablishmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +26,14 @@ public class EstablishmentController {
     @PostMapping("/create")
     public ResponseEntity<Long> createEstablishment(@RequestBody EstablishmentRequest establishmentRequest){
         return service.createEstablishment(establishmentRequest);
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Establishment> updateEstablishment(@PathVariable Long id, @RequestBody EstablishmentRequest request){
+        return service.updateEstablishment(id, request);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteEstablishment(@PathVariable Long id){
+        return service.deleteEstablishment(id);
     }
 }
