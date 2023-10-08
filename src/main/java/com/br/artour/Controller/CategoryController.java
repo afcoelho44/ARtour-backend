@@ -21,7 +21,7 @@ public class CategoryController {
 
 
     @GetMapping("/all")
-    public List<Category> getAllCategory(){return service.getAllCategory();}
+    public ResponseEntity<List<Category>> getAllCategory(){return service.getAllCategory();}
 
 
     @PostMapping("/create")

@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -20,11 +21,25 @@ public class CategoryService {
     private CategoryRepository repository;
 
 
-    public List<Category> getAllCategory(){ return repository.findAll();}
+    public ResponseEntity<List<Category>> getAllCategory(){ return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);}
 
     public ResponseEntity<Long> createCategory(CategoryRequest request){
         var entity = new CategoryRequestToEntity().map(request);
         var id = repository.save(entity).getId();
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
+
+    public ResponseEntity<Category> updateCategory(Long id, CategoryRequest request){
+        var record = repository.findById(id).orElseThrow(RuntimeException::new);
+        var response = new CategoryRequestToEntity().mapUpdate(request, record);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Void> DeleteCategory(Long id){
+        repository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
 }
