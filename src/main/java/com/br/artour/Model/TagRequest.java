@@ -9,4 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TagRequest {
     private String title;
+
+    private Long establishment_id;
 }

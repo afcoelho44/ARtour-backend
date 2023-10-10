@@ -2,6 +2,7 @@ package com.br.artour.Service;
 
 import com.br.artour.Entity.Comentary;
 import com.br.artour.Entity.User;
+import com.br.artour.Exception.EstablishmentNotFoundException;
 import com.br.artour.Mapper.ComentaryRequestToEntity;
 import com.br.artour.Mapper.UserRequestToEntity;
 import com.br.artour.Model.ComentaryRequest;
@@ -39,13 +40,20 @@ public class ComentaryService {
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
     public ResponseEntity<Comentary> updateComentary(Long id, ComentaryRequest request){
+        var user= userRepository.findById(request.getUser_id()).orElseThrow(RuntimeException::new);
+        var establishment= establishmentRepository.findById(request.getEstablishment_id()).orElseThrow(EstablishmentNotFoundException::new);
         var record= comentaryRepository.findById(id).orElseThrow(RuntimeException::new);
         record= new ComentaryRequestToEntity().mapUpdate(request,record);
+        record.setUser(user);
+        record.setEstablishment(establishment);
         comentaryRepository.save(record);
+
+
         return new ResponseEntity<>(record, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deleteComentary(Long id){
+
         comentaryRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

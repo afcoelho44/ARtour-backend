@@ -3,13 +3,13 @@ package com.br.artour.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -25,4 +25,6 @@ public class Category {
     @OneToMany(mappedBy="category", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "categoryRef")
     private List<Establishment> establishment;
+
+
 }
