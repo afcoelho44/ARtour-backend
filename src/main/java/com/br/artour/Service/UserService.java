@@ -43,4 +43,13 @@ public class UserService {
         userRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    public  ResponseEntity<User> getUserById(Long id){
+        User user = userRepository.findById(id).orElse(null);
+        if(user != null){
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
