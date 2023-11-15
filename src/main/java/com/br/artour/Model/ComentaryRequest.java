@@ -16,6 +16,8 @@ public class ComentaryRequest {
 
     private String media;
 
+    private int approved;
+
     private Long user_id;
 
     private Long establishment_id;

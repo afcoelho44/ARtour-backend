@@ -1,20 +1,19 @@
 package com.br.artour.Service;
 
 import com.br.artour.Entity.Comentary;
-import com.br.artour.Entity.User;
 import com.br.artour.Exception.EstablishmentNotFoundException;
 import com.br.artour.Mapper.ComentaryRequestToEntity;
-import com.br.artour.Mapper.UserRequestToEntity;
 import com.br.artour.Model.ComentaryRequest;
-import com.br.artour.Model.UserRequest;
 import com.br.artour.Repository.ComentaryRepository;
 import com.br.artour.Repository.EstablishmentRepository;
 import com.br.artour.Repository.UserRepository;
+import com.br.artour.Response.ComentaryResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +26,23 @@ public class ComentaryService {
 
     private EstablishmentRepository establishmentRepository;
 
-    public List<Comentary> getAllComentary(){return comentaryRepository.findAll();}
+    public List<ComentaryResponse> getAllComentary() {
+        List<Comentary> comments = comentaryRepository.findAll();
+        List<ComentaryResponse> commentsResponse = new ArrayList<>();
+        for (Comentary comentary : comments) {
+            var user = userRepository.findById(comentary.getUser().getId());
+            var establishment = establishmentRepository.findById(comentary.getEstablishment().getId());
+            commentsResponse.add(new ComentaryResponse(
+                    comentary.getId(),
+                    comentary.getTitle(),
+                    comentary.getContent(),
+                    null,
+                    comentary.getApproved() == 0 ? "Aguardando Análise" : comentary.getApproved() == 1 ? "Reprovado" : comentary.getApproved() == 2 ? "Aprovado" : "",
+                    user.get().getName(),
+                    establishment.get().getName()));
+        }
+        return commentsResponse;
+    }
 
     public ResponseEntity<Long> createComentery(ComentaryRequest request){
         var user= userRepository.findById(request.getUser_id()).orElseThrow(RuntimeException::new);
@@ -56,5 +71,35 @@ public class ComentaryService {
 
         comentaryRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity<ComentaryResponse> getComentaryById(Long id) {
+        Comentary comentary = comentaryRepository.findById(id).orElse(null);
+        if (comentary != null) {
+            var user = userRepository.findById(comentary.getUser().getId());
+            var establishment = establishmentRepository.findById(comentary.getEstablishment().getId());
+            ComentaryResponse comentaryResponse = new ComentaryResponse(
+                    comentary.getId(),
+                    comentary.getTitle(),
+                    comentary.getContent(),
+                    null,
+                    comentary.getApproved() == 0 ? "Aguardando Análise" : comentary.getApproved() == 1 ? "Reprovado" : comentary.getApproved() == 2 ? "Aprovado" : "",
+                    user.get().getName(),
+                    establishment.get().getName());
+            return new ResponseEntity<>(comentaryResponse, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<Void> setApprovedComentary(Long id, Integer approvedCode) {
+        var comentary = comentaryRepository.findById(id).orElse(null);
+        if (comentary != null) {
+            comentary.setApproved(approvedCode);
+            comentaryRepository.save(comentary);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

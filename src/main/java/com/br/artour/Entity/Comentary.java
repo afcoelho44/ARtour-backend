@@ -23,6 +23,8 @@ public class Comentary {
 
     private String media;
 
+    private int approved;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference(value = "userRef")
