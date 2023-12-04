@@ -5,6 +5,7 @@ import com.br.artour.Entity.Establishment;
 import com.br.artour.Entity.User;
 import com.br.artour.Model.EstablishmentRequest;
 import com.br.artour.Model.UserRequest;
+import com.br.artour.Response.EstablishmentResponse;
 import com.br.artour.Service.EstablishmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,10 @@ public class EstablishmentController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEstablishment(@PathVariable Long id){
         return service.deleteEstablishment(id);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EstablishmentResponse> getEstablishmentById(@PathVariable("id") Long id){
+        return service.getEstablishmentById(id);
     }
 }

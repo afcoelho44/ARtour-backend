@@ -45,4 +45,9 @@ public class ComentaryController {
     public ResponseEntity<Void> setApprovedComentary(@PathVariable("id") Long id, @RequestBody Integer approved){
         return service.setApprovedComentary(id, approved);
     }
+
+    @GetMapping("/estabishment/{id}")
+    public List<ComentaryResponse> getApprovedCommentsFromEstablishment(@PathVariable("id") Long idEstablishment){
+        return service.getApprovedCommentsFromEstablishment(idEstablishment);
+    }
 }

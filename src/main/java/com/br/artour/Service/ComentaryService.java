@@ -102,4 +102,22 @@ public class ComentaryService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    public List<ComentaryResponse> getApprovedCommentsFromEstablishment(Long idEstablishment) {
+        List<Comentary> comments = comentaryRepository.getApprovedCommentsFromEstablishment(idEstablishment);
+        List<ComentaryResponse> commentsResponse = new ArrayList<>();
+        for (Comentary comentary : comments) {
+            var user = userRepository.findById(comentary.getUser().getId());
+            var establishment = establishmentRepository.findById(comentary.getEstablishment().getId());
+            commentsResponse.add(new ComentaryResponse(
+                    comentary.getId(),
+                    comentary.getTitle(),
+                    comentary.getContent(),
+                    null,
+                    comentary.getApproved() == 0 ? "Aguardando Análise" : comentary.getApproved() == 1 ? "Reprovado" : comentary.getApproved() == 2 ? "Aprovado" : "",
+                    user.get().getName(),
+                    establishment.get().getName()));
+        }
+        return commentsResponse;
+    }
 }
