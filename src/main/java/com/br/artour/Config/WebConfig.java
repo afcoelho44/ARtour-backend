@@ -12,6 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // Permitimos que as requisições venham de qualquer origem (sem segurança), devido ao erro de CORS
-        registry.addMapping("/**");
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:5173/")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 }
